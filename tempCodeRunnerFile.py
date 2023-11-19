@@ -1,31 +1,25 @@
-from Model import Assignment, Employee, Job
-from db import session, engine
+from Model import Employee, Job, Assignment
+from db import session
 from sqlalchemy import create_engine
-from sqlalchemy import text
+from sqlalchemy.orm import sessionmaker
 
 # create an engine
 engine = create_engine('sqlite:///example.db')
 
-# create a configured "Session" class v
-# Session = sessionmaker(bind=engine)
+# create a configured "Session" class
+Session = sessionmaker(bind=engine)
 
 # create a Session
-# session = Session()
+session = Session()
 
 '''
 Query all employee records from the employee table
 And query employee with condition, emp_num > 101
 '''
-# employees = session.query(Employee).all()
-
-# for employee in employees:
-#     print(employee.emp_lname, employee.emp_fname, employee.emp_hiredate)
-
-# print(employees.emp_fname)
-
-# employees = session.query(Employee).filter(Employee.emp_num > 101).all()
-# for employee in employees:
-#     print(employee.emp_lname, employee.emp_fname, employee.emp_hiredate)
+employees = session.query(Employee).all()
+employees = session.query(Employee).filter(Employee.emp_num > 101).all()
+for employee in employees:
+    print(employee.emp_lname, employee.emp_fname, employee.emp_hiredate)
 
 
 '''
@@ -60,8 +54,3 @@ Delete employee record
 '''
 Query assigment where assign_date is larger than 2010-01-01
 '''
-assignments = session.query (Assignment) .filter(
-Assignment.assign_date > "2010-03-22") .all()
-for assignment in assignments: 
-    print(assignment.assign_num, assignment.assign_date, assignment.proj_num, assignment.emp_num,
-assignment.assign_job, assignment.assign_hours, assignment.assign_charge)
